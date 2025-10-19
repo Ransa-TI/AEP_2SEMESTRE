@@ -7,29 +7,29 @@ int main(){
 	
 	int resposta, x, y, tam, DoencaEscolhida, adSint;
 	char nome[100], NOME[100], doencaSint[50];
-	char sintomas[5][50];
+	char sintomas[11][50];
 
 	
 	setlocale(LC_ALL, "Portuguese");
 	
 	
 	strcpy(sintomas[0],  "Febre");
-    strcpy(sintomas[1],  "Dor de cabeÁa");
+    strcpy(sintomas[1],  "Dor de cabe√ßa");
     strcpy(sintomas[2],  "Dor no corpo (mialgia)");
-    strcpy(sintomas[3],  "CansaÁo ou fadiga");
+    strcpy(sintomas[3],  "Cansa√ßo ou fadiga");
     strcpy(sintomas[4],  "Perda de apetite");
     strcpy(sintomas[5],  "Tosse seca");
     strcpy(sintomas[6],  "Tosse com catarro (tosse produtiva)");
     strcpy(sintomas[7],  "Coriza (nariz escorrendo)");
     strcpy(sintomas[8],  "Espirros");
-    strcpy(sintomas[9],  "Dor ou irritaÁ„o na garganta");
+    strcpy(sintomas[9],  "Dor ou irrita√ß√£o na garganta");
     strcpy(sintomas[10], "Dificuldade para respirar (dispneia)");
 
 	
 	
 /*---------------------------------------------------MENU----------------------------------------------*/
 	printf("\n");
-	printf("\n                                        Ol·! Seja muito bem vindo ao consulte(c)\n"); //pegou o trocadilho?
+	printf("\n                                        Ol√°! Seja muito bem vindo ao consulte(c)\n"); //pegou o trocadilho?
 	printf("\n------------------------------------------------------------------------------------------------------------------------\n");	
 	printf("\n");
 	printf("\n");
@@ -41,8 +41,8 @@ int main(){
 	printf("   		 Digite: \n");
 	printf("\n       	[1]         Para iniciar a consulta\n");
 	printf("\n       	[2]               Para ler o manual\n");
-	printf("\n       	[3]   Para ler a conclus„o resumida\n");
-	printf("\n       	[4]  Para ler a conclus„o detalhada\n");
+	printf("\n       	[3]   Para ler a conclus√£o resumida\n");
+	printf("\n       	[4]  Para ler a conclus√£o detalhada\n");
 	printf("\n       	[5]  	   Para encerrar o programa\n");
 	printf("\n");
 	printf("\n");
@@ -51,7 +51,7 @@ int main(){
 	printf("    ---------------------------------------------------------");
 	printf("\n------------------------------------------------------------------------------------------------------------------------\n");	
 	getchar();
-	system("cls || clear");
+	system("cls");
 	switch(resposta){
 		case 1: 
 //---------------------------------------------------iniciar consulta----------------------------------------------------------
@@ -64,7 +64,7 @@ int main(){
 			printf("   Por favor me diga seu nome: ");
 			fgets(nome, 100, stdin);
 			nome[strcspn(nome, "\n")] = '\0';
-			tam = strlen(nome);							//todo esse trampo sÛ pra deixar o nome maiusculo =(
+			tam = strlen(nome);							//todo esse trampo s√≥ pra deixar o nome maiusculo =(
 			for(x=0; x<tam; x++){
 				NOME[x] = toupper(nome[x]);
 			}
@@ -77,19 +77,19 @@ int main(){
 			printf("            ______________________________________________________________________________________________\n");
 			
 		 	for(x = 0; x < 11; x++) {
-                printf("            [%d] %s\n", x + 1, sintomas[x]);
+                printf("[%d] %s\n", x + 1, sintomas[x]);
             }
 
-//------------------------------------------------AtribuiÁ„o de sintomas---------------------------------------------------------------------
+//------------------------------------------------Atribui√ß√£o de sintomas---------------------------------------------------------------------
             printf("\n");
             printf("\n");
-            printf("Adicionar sintoma?(Digite 0 para n„o e 1 para sim): \n");
-            scanf("%d", adSint);
+            doencaSint[0] = '\0';
+            printf("Adicionar sintoma?(Digite 0 para n√£o e 1 para sim): \n");
+            scanf("%d", &adSint);
             getchar();
             
             while(adSint == 1){
-            	switch(DoencaEscolhida){
-	            	printf("Digite o n˙mero do sintoma (1 a 11): ");
+	            printf("Digite o n√∫mero do sintoma (1 a 11): ");
                 scanf("%d", &DoencaEscolhida);
                 getchar();
 
@@ -98,18 +98,15 @@ int main(){
                     strcat(doencaSint, ", ");
                     printf("Sintoma '%s' adicionado!\n", sintomas[DoencaEscolhida - 1]);
                 } else {
-                    printf("N˙mero inv·lido!\n");
+                    printf("N√∫mero inv√°lido!\n");
                 }
 
-                printf("\nDeseja adicionar outro sintoma? (1 = sim / 0 = n„o): ");
+                printf("\nDeseja adicionar outro sintoma? (1 = sim / 0 = n√£o): ");
                 scanf("%d", &adSint);
                 getchar();
             }
 
-            printf("\n\nResumo dos sintomas adicionados:\n%s\n", doencaSint);
-            break;
-	
-				}		
+            printf("\n\nResumo dos sintomas adicionados:\n%s\n", doencaSint);		
 			break;
 		case 2: 
 			//iniciar consulta
@@ -129,4 +126,3 @@ printf("\n");
 printf("\n");
 	
 }
-
