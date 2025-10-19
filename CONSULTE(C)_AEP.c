@@ -5,7 +5,8 @@
 
 int main(){
 	
-	int resposta, x, y, tam, DoencaEscolhida, adSint;
+	int resposta, x, y, tam, DoencaEscolhida, adSint, qtdSintomas, intencidade, quadroGrave;
+	int sintoma[11];
 	char nome[100], NOME[100], doencaSint[50];
 	char sintomas[11][50];
 
@@ -106,7 +107,30 @@ int main(){
                 getchar();
             }
 
-            printf("\n\nResumo dos sintomas adicionados:\n%s\n", doencaSint);		
+            printf("\n\nResumo dos sintomas adicionados:\n%s\n", doencaSint);	
+			
+			//-------------------------------------------Níveis de intencidade-------------------------------------------------------------------------		
+			
+			system("cls");
+			
+			for(x=0; x < qtdSintomas; x++){
+				printf("De 0 a 10 Qual nível de intencidade do sintoma %s apresentado", sintoma[x]);	
+				printf("\nSendo 0 um caso leve pocuo prejudicial e 10 nivel extremo: ");
+				scanf("%d", intencidade);
+				
+				if(intencidade > 1 && intencidade <= 5){
+					quadroGrave = 1;
+				}else if(intencidade > 5 && intencidade <= 8){
+					quadroGrave = 2;
+				}else if(intencidade > 8 && intencidade <= 10){
+					quadroGrave = 3;
+				}else{
+					printf("Valor invalido, por favor escreva novamente!");
+					printf("De 0 a 10 Qual nível de intencidade do sintoma %s apresentado", sintoma);	
+					printf("\nSendo 0 um caso leve pocuo prejudicial e 10 nivel extremo: ");
+					scanf("%d", intencidade);
+				}
+			}
 			break;
 		case 2: 
 			//iniciar consulta
@@ -126,3 +150,4 @@ printf("\n");
 printf("\n");
 	
 }
+
