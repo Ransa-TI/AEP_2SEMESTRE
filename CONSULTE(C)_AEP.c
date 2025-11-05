@@ -49,7 +49,7 @@ void pause(){
 // ------------------- MENU -------------------
 void menu(){
 	setlocale(LC_ALL,"Portuguese");
-    printf("\n\tM E N U\n");
+    printf("\n\t						M E N U\n");
     printf("\n        [1]\tInformações do Paciente\n");
     printf("        [2]\tIniciar Triagem\n");
     printf("        [3]\tPrognóstico\n");
@@ -68,6 +68,7 @@ void menu(){
         case 2:
             iniciarTriagem();
             pause();
+            printf(" Prognóstico gerado com sucesso!");
             break;
         case 3:
             exibirPrognostico();
@@ -84,7 +85,7 @@ void menu(){
             pause();
             break;
     }
-
+	system("cls");
 }
 
 // ------------------- INFORMAÇÕES DO PACIENTE -------------------
@@ -95,7 +96,7 @@ void informacoesPaciente(){
 
     system("cls");
     setlocale(LC_ALL,"Portuguese");
-    printf("\nNOME DO PACIENTE: ");
+    printf("\n					NOME DO PACIENTE: ");
     fgets(nomeTemp,sizeof(nomeTemp),stdin);
     nomeTemp[strcspn(nomeTemp,"\n")] = '\0';
 
@@ -103,13 +104,14 @@ void informacoesPaciente(){
         nome[i] = toupper(nomeTemp[i]);
     }
 
-    printf("IDADE DO PACIENTE: ");
+    printf("					IDADE DO PACIENTE: ");
     scanf("%d",&idade);
     getchar(); // limpar buffer
 
-    printf("TELEFONE PARA CONTATO (DDD) XXXX-XXXX: ");
+    printf("					TELEFONE PARA CONTATO (DDD) XXXX-XXXX: ");
     fgets(telefone,sizeof(telefone),stdin);
     telefone[strcspn(telefone,"\n")] = '\0';
+
 }
 
 // ------------------- ÁRVORE DE DECISÃO -------------------
@@ -117,15 +119,13 @@ void iniciarTriagem() {
     system("cls");
     setlocale(LC_ALL,"Portuguese");
 
-    int febre       = perguntasTriagem("POSSUI FEBRE?");
-    int tosse       = perguntasTriagem("POSSUI TOSSE?");
-    int dorGarganta = perguntasTriagem("POSSUI DOR DE GARGANTA?");
-    int faltaAr     = perguntasTriagem("POSSUI FALTA DE AR?");
-    int dorCabeca   = perguntasTriagem("POSSUI DOR DE CABECA?");
-    int fraqueza    = perguntasTriagem("SENTE FRAQUEZA?");
-    int contato     = perguntasTriagem("TEVE CONTATO COM PESSOA DOENTE?");
-
-    printf("\n=== RESULTADO DA TRIAGEM ===\n\n");
+    int febre       = perguntasTriagem("  POSSUI FEBRE?");
+    int tosse       = perguntasTriagem("  POSSUI TOSSE?");
+    int dorGarganta = perguntasTriagem("  POSSUI DOR DE GARGANTA?");
+    int faltaAr     = perguntasTriagem("  POSSUI FALTA DE AR?");
+    int dorCabeca   = perguntasTriagem("  POSSUI DOR DE CABECA?");
+    int fraqueza    = perguntasTriagem("  SENTE FRAQUEZA?");
+    int contato     = perguntasTriagem("  TEVE CONTATO COM PESSOA DOENTE?");
 
     // ------------------- ÁRVORE DE DECISÃO + PRIORIDADE -------------------
     if (faltaAr) {
@@ -181,7 +181,6 @@ void iniciarTriagem() {
     // printf("Urgência: %s\n", urgencia);
     // printf("Recomendações: %s\n", recomendacoes);
     // printf("Conclusão: %s\n\n", conclusao);
-   
 }
 
 // ------------------- PERGUNTAS SIM/NÃO -------------------
@@ -200,6 +199,7 @@ int perguntasTriagem(char *mensagem) {
 
         printf("Entrada inválida! Digite S ou N.\n\n");
     }
+    
 }
 
 // ------------------- PROGNÓSTICO -------------------
