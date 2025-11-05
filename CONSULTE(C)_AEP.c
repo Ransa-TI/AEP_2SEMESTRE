@@ -1,159 +1,280 @@
-#include <stdio.h>
-#include <locale.h>
-#include <string.h>
+#include <stdio.h>  
+#include <stdlib.h> 
 #include <ctype.h>
+#include <string.h> 
+#include <locale.h>  
 
-int main(){
-	
-	int resposta, x, y, tam, DoencaEscolhida, adSint, qtdSintomas, intencidade, quadroGrave;
-	int sintoma[11];
-	char nome[100], NOME[100], doencaSint[500];
-	char sintomas[11][50];
+// ------------------- Variáveis globais -------------------
+char quadroPaciente[100], urgencia[100], recomendacoes[100], conclusao[100], orientacoes[500];
+char nome[100], telefone[20];
+int idade;
+int opcao = 0, pontos = 0;
 
-	
-	setlocale(LC_ALL, "Portuguese");
-	
-	
-	strcpy(sintomas[0],  "Febre");
-    strcpy(sintomas[1],  "Dor de cabeça");
-    strcpy(sintomas[2],  "Dor no corpo (mialgia)");
-    strcpy(sintomas[3],  "Cansaço ou fadiga");
-    strcpy(sintomas[4],  "Perda de apetite");
-    strcpy(sintomas[5],  "Tosse seca");
-    strcpy(sintomas[6],  "Tosse com catarro (tosse produtiva)");
-    strcpy(sintomas[7],  "Coriza (nariz escorrendo)");
-    strcpy(sintomas[8],  "Espirros");
-    strcpy(sintomas[9],  "Dor ou irritação na garganta");
-    strcpy(sintomas[10], "Dificuldade para respirar (dispneia)");
+// ------------------- MÉTODOS -------------------
+void menu();
+void pause();
+void informacoesPaciente();
+void iniciarTriagem();
+void exibirPrognostico();
+void observacoes();
+int perguntasTriagem(char *mensagem);
+char* urgenciaPontuacao(int pontuacao);
 
-	
-	
-/*---------------------------------------------------MENU----------------------------------------------*/
-	printf("\n");
-	printf("\n                                        Olá! Seja muito bem vindo ao consulte(c)\n"); //pegou o trocadilho?
-	printf("\n------------------------------------------------------------------------------------------------------------------------\n");	
-	printf("\n");
-	printf("\n");
-	
-	printf("    Por favor insira o numero conforme o que deseja fazer");
-	printf("\n");
-	printf("    ---------------------------------------------------------");
-	printf("\n");
-	printf("   		 Digite: \n");
-	printf("\n       	[1]         Para iniciar a consulta\n");
-	printf("\n       	[2]               Para ler o manual\n");
-	printf("\n       	[3]   Para ler a conclusão resumida\n");
-	printf("\n       	[4]  Para ler a conclusão detalhada\n");
-	printf("\n       	[5]  	   Para encerrar o programa\n");
-	printf("\n");
-	printf("\n");
-	printf("               Resposta: ");
-	scanf("%d", &resposta);
-	printf("    ---------------------------------------------------------");
-	printf("\n------------------------------------------------------------------------------------------------------------------------\n");	
-	getchar();
-	system("cls");
-	switch(resposta){
-		case 1: 
-//---------------------------------------------------iniciar consulta----------------------------------------------------------
-			printf("\n------------------------------------------------------------------------------------------------------------------------\n");	
-			printf("\n");
-			printf("                                      Perfeito! Vamos iniciar a conulta");
-			printf("\n");
-			printf("\n------------------------------------------------------------------------------------------------------------------------\n");	
-			printf("\n");
-			printf("   Por favor me diga seu nome: ");
-			fgets(nome, 100, stdin);
-			nome[strcspn(nome, "\n")] = '\0';
-			tam = strlen(nome);							//todo esse trampo só pra deixar o nome maiusculo =(
-			for(x=0; x<tam; x++){
-				NOME[x] = toupper(nome[x]);
-			}
-			printf("\n");
-			printf("\n");
-			printf("\n       		                                    SEJA BEM VINDO %s! \n", NOME);
-			printf("\n       		      Por favor isira o numero conforme a tabela abaixo que corresponde com seus sintomas!\n");
-			printf("\n");
-			printf("\n");										//tive que repesquisar sobre arrays em c
-			printf("        _________________________________________________________________________________________________________\n");
-			printf("\n");
-			
-		 	for(x = 0; x < 11; x++) {
-		 		printf("         ");
-                printf("[%d] %s\n", x + 1, sintomas[x]);
-            }
+// ------------------- EXECUÇÃO -------------------
+int main() {
 
-//------------------------------------------------Atribuição de sintomas---------------------------------------------------------------------
-            printf("\n");
-            printf("\n");
-            doencaSint[0] = '\0';
-            printf("Adicionar sintoma?(Digite 0 para não e 1 para sim): \n");
-            scanf("%d", &adSint);
-            getchar();
-            
-            qtdSintomas = 0;
-            
-            while(adSint == 1){
-	            printf("Digite o número do sintoma (1 a 11): ");
-                scanf("%d", &DoencaEscolhida);
-                sintoma[qtdSintomas] = DoencaEscolhida - 1;
-				qtdSintomas += 1;
-                getchar();
+    setlocale(LC_ALL,"Portuguese");
 
-                if (DoencaEscolhida >= 1 && DoencaEscolhida <= 11) {
-                    strcat(doencaSint, sintomas[DoencaEscolhida - 1]);
-                    strcat(doencaSint, ", ");
-                    printf("Sintoma '%s' adicionado!\n", sintomas[DoencaEscolhida - 1]);
-                } else {
-                    printf("Número inválido!\n");
-                }
+    printf("\n");
+    printf("\n                                        Olá! Seja muito bem-vindo ao TRIATE(C)\n");
+    printf("\n------------------------------------------------------------------------------------------------------------------------\n");
 
-                printf("\nDeseja adicionar outro sintoma? (1 = sim / 0 = não): ");
-                scanf("%d", &adSint);
-                getchar();
-            }
+    while(opcao != 5){
+        menu();
+    }
 
-			
-			//-------------------------------------------Níveis de intencidade-------------------------------------------------------------------------		
-			
-			system("cls");
-			
-			printf("\n\nResumo dos sintomas adicionados:\n%s\n", doencaSint);
-			
-			for(x=0; x < qtdSintomas; x++){
-				printf("\nDe 0 a 10 Qual nível de intencidade do sintoma %s apresentado", sintomas[sintoma[x]]);	
-				printf("\nSendo 0 um caso leve pocuo prejudicial e 10 nivel extremo: ");
-				scanf("%d", &intencidade);
-				
-				if(intencidade > 1 && intencidade <= 5){
-					quadroGrave = 1;
-				}else if(intencidade > 5 && intencidade <= 8){
-					quadroGrave = 2;
-				}else if(intencidade > 8 && intencidade <= 10){
-					quadroGrave = 3;
-				}else{
-					printf("Valor invalido, por favor escreva novamente!");
-					printf("De 0 a 10 Qual nível de intencidade do sintoma %s apresentado", sintoma);	
-					printf("\nSendo 0 um caso leve pocuo prejudicial e 10 nivel extremo: ");
-					scanf("%d", &intencidade);
-				}
-			}
-			break;
-		case 2: 
-			//Ler Manual
-			break;
-		case 3: 
-			//ler conclusão resumida
-			break;
-		case 4: 
-			//ler conclusão detalhada
-			break;
-		case 5: 
-			//encerra o programa
-			break;
-	}
-printf("\n");
-printf("\n");
-printf("\n");
-	
+    printf("\nTRIATE(C) Finalizado!\n");
+
+    return 0;
+}
+
+void pause(){
+    char enter=' ';
+    printf("\n");
+    printf("\tENTER para continuar ");
+    scanf("%c",&enter);
+}
+
+
+// ------------------- MENU -------------------
+void menu(){
+	setlocale(LC_ALL,"Portuguese");
+    printf("\n\tM E N U\n");
+    printf("\n        [1]\tInformações do Paciente\n");
+    printf("        [2]\tIniciar Triagem\n");
+    printf("        [3]\tPrognóstico\n");
+    printf("        [4]\tObservações\n");
+    printf("        [5]\tEncerrar programa\n");
+    printf("\n\tOpção: ");
+
+    scanf("%d",&opcao);
+    getchar();    // para consumir a quebra de linha
+
+    switch (opcao){
+        case 1:
+            informacoesPaciente();
+            pause(); 
+            break;
+        case 2:
+            iniciarTriagem();
+            pause();
+            break;
+        case 3:
+            exibirPrognostico();
+            pause();
+            break;
+        case 4:
+            observacoes();
+            pause();
+            break;
+        case 5:
+            break;
+        default:
+            printf("\n\tOpção inválida!\n");
+            pause();
+            break;
+    }
+
+}
+
+// ------------------- INFORMAÇÕES DO PACIENTE -------------------
+void informacoesPaciente(){
+
+    char nomeTemp[100];
+    int i;
+
+    system("cls");
+    setlocale(LC_ALL,"Portuguese");
+    printf("\nNOME DO PACIENTE: ");
+    fgets(nomeTemp,sizeof(nomeTemp),stdin);
+    nomeTemp[strcspn(nomeTemp,"\n")] = '\0';
+
+    for(i=0;i<strlen(nomeTemp);i++){
+        nome[i] = toupper(nomeTemp[i]);
+    }
+
+    printf("IDADE DO PACIENTE: ");
+    scanf("%d",&idade);
+    getchar(); // limpar buffer
+
+    printf("TELEFONE PARA CONTATO (DDD) XXXX-XXXX: ");
+    fgets(telefone,sizeof(telefone),stdin);
+    telefone[strcspn(telefone,"\n")] = '\0';
+}
+
+// ------------------- ÁRVORE DE DECISÃO -------------------
+void iniciarTriagem() {
+    system("cls");
+    setlocale(LC_ALL,"Portuguese");
+
+    int febre       = perguntasTriagem("POSSUI FEBRE?");
+    int tosse       = perguntasTriagem("POSSUI TOSSE?");
+    int dorGarganta = perguntasTriagem("POSSUI DOR DE GARGANTA?");
+    int faltaAr     = perguntasTriagem("POSSUI FALTA DE AR?");
+    int dorCabeca   = perguntasTriagem("POSSUI DOR DE CABECA?");
+    int fraqueza    = perguntasTriagem("SENTE FRAQUEZA?");
+    int contato     = perguntasTriagem("TEVE CONTATO COM PESSOA DOENTE?");
+
+    printf("\n=== RESULTADO DA TRIAGEM ===\n\n");
+
+    // ------------------- ÁRVORE DE DECISÃO + PRIORIDADE -------------------
+    if (faltaAr) {
+        strcpy(quadroPaciente, "POSSIVEL CASO GRAVE");
+        strcpy(urgencia, "ALTISSIMA");
+        pontos = 100;
+        urgenciaPontuacao(pontos);
+        strcpy(recomendacoes, "ENCAMINHAR PARA ATENDIMENTO IMEDIATO");
+        strcpy(conclusao, "CRITICO");
+
+    } else if (febre && tosse && fraqueza) {
+        strcpy(quadroPaciente, "SINAIS COMPATIVEIS COM INFECCAO RESPIRATORIA");
+        strcpy(urgencia, "ALTA");
+        pontos = 80;
+        urgenciaPontuacao(pontos);
+        strcpy(recomendacoes, "AVALIACAO PRESENCIAL");
+        strcpy(conclusao, "GRAVE");
+
+    } else if (febre && contato) {
+        strcpy(quadroPaciente, "SUSPEITA DE QUADRO VIRAL");
+        strcpy(urgencia, "MEDIA");
+        pontos = 60;
+        urgenciaPontuacao(pontos);
+        strcpy(recomendacoes, "ORIENTAR ISOLAMENTO E TESTAGEM");
+        strcpy(conclusao, "MODERADO");
+
+    } else if (dorGarganta && dorCabeca) {
+        strcpy(quadroPaciente, "POSSIVEL GRIPE COMUM");
+        //strcpy(urgencia, "BAIXA");
+        pontos = 40;
+        urgenciaPontuacao(pontos);
+        strcpy(recomendacoes, "HIDRATACAO, REPOUSO E MONITORAMENTO");
+        strcpy(conclusao, "LEVE");
+
+    } else if (tosse || dorGarganta || dorCabeca) {
+        strcpy(quadroPaciente, "QUADRO LEVE");
+        strcpy(urgencia, "BAIXA");
+        pontos = 20;
+        urgenciaPontuacao(pontos);
+        strcpy(recomendacoes, "CUIDADOS EM CASA");
+        strcpy(conclusao, "LEVE");
+
+    } else {
+        strcpy(quadroPaciente, "SEM INDICATIVO GRIPAL");
+        strcpy(urgencia, "SEM URGÊNCIA");
+        pontos = 0;
+        urgenciaPontuacao(pontos);
+        strcpy(recomendacoes, "VIDA NORMAL");
+        strcpy(conclusao, "BOM");
+    }
+
+    // printf("Quadro do paciente: %s\n", quadroPaciente);
+    // printf("Urgência: %s\n", urgencia);
+    // printf("Recomendações: %s\n", recomendacoes);
+    // printf("Conclusão: %s\n\n", conclusao);
+   
+}
+
+// ------------------- PERGUNTAS SIM/NÃO -------------------
+int perguntasTriagem(char *mensagem) {
+	setlocale(LC_ALL,"Portuguese");
+    char resposta = ' ';
+
+    while (1) {
+        printf("%s (S/N): ", mensagem);
+        scanf(" %c", &resposta);
+        getchar(); // limpar buffer
+        resposta = toupper(resposta);
+
+        if(resposta == 'S') return 1;
+        if(resposta == 'N') return 0;
+
+        printf("Entrada inválida! Digite S ou N.\n\n");
+    }
+}
+
+// ------------------- PROGNÓSTICO -------------------
+void exibirPrognostico() {
+	setlocale(LC_ALL,"Portuguese");
+    system("cls");
+    printf("\n\n===== PROGNÓSTICO DO PACIENTE =====\n");
+    printf("Condição do Paciente: %s\n", quadroPaciente);
+    printf("Nível de Urgência: %s\n", urgencia);
+    printf("Recomendações Iniciais: %s\n", recomendacoes);
+    printf("Conclusão: %s\n", conclusao);
+    printf("====================================\n\n");
+}
+
+// ------------------- DICAS -------------------
+void observacoes() {
+	setlocale(LC_ALL,"Portuguese");
+    system("cls");
+    if (strcmp(conclusao, "CRITICO") == 0) {  
+        strcpy(orientacoes,
+           "BUSCAR UTI IMEDIATAMENTE; EVITAR ESFORCOS; ACOMPANHAMENTO CONTINUO; "
+           "DOCUMENTACAO DISPONIVEL; PREPARAR TRANSFERENCIA SE NECESSARIO.");
+    } 
+    else if (strcmp(conclusao, "GRAVE") == 0) {  
+        strcpy(orientacoes,
+           "MONITORAR SINAIS; SEGUIR TRATAMENTO; HIDRATACAO; REPOUSO TOTAL; "
+           "NOTIFICAR AGRAVAMENTO AO MEDICO.");
+    } 
+    else if (strcmp(conclusao, "MODERADO") == 0) {  
+        strcpy(orientacoes,
+           "TRATAMENTO; REPOUSO MODERADO; HIDRATACAO; REAVALIAR EM 48-72H; "
+           "ISOLAMENTO SE NECESSARIO.");
+    } 
+    else if (strcmp(conclusao, "LEVE") == 0 || strcmp(conclusao, "BOM") == 0) {  
+        strcpy(orientacoes,
+           "HIDRATACAO; REPOUSO LEVE; ALIMENTACAO SAUDAVEL; MONITORAR MELHORA.");
+    } 
+    else {
+        strcpy(orientacoes, "SEM OBSERVACOES DISPONIVEIS.");
+    }
+
+
+    printf("\n\n===== ORIENTACOES =====\n");
+    printf("O Paciente %s\n",nome);
+    printf("Idade: %d\n",idade);
+    printf("Contato: %s\n",telefone);
+    printf("Oberservações: %s\n", orientacoes);
+    printf("===============================\n\n");
+}
+
+char* urgenciaPontuacao(int pontuacao){
+	setlocale(LC_ALL,"Portuguese");
+    
+    switch (pontuacao)
+    {
+    case 100:
+        strcpy(urgencia,"100 PONTOS - URGÊNCIA CRÍTICA");
+        break;
+    case 80:
+        strcpy(urgencia,"80 PONTOS - URGÊNCIA ALTA");
+        break;
+    case 60:
+        strcpy(urgencia,"60 PONTOS - URGÊNCIA MÉDIA");
+        break;
+    case 40:
+        strcpy(urgencia,"40 PONTOS - URGÊNCIA BAIXA");
+        break;
+    case 20:
+        strcpy(urgencia,"20 PONTOS - URGÊNCIA LEVE");
+        break;
+    case 0:
+        strcpy(urgencia,"0 PONTOS - SEM URGÊNCIA ");
+        break;
+    default:
+    
+        break;
+    }
 }
