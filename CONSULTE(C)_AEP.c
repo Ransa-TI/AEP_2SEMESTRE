@@ -26,7 +26,7 @@ int main()
 
     printf("\n");
     printf("\n                                        Olá! Seja muito bem-vindo ao TRIATE(C)\n");
-    printf("\n------------------------------------------------------------------------------------------------------------------------\n");
+    printf("\n");
 
     while (opcao != 5)
     {
@@ -42,19 +42,22 @@ int main()
 void pause()
 {
 
-    printf("ENTER para continuar");
+    printf("\n	ENTER para continuar");
     getchar();//conosme a entrada e limpa o buffer
 }
 
 
 void menu()
 {
-    printf("\n\tM E N U\n");
-    printf("[1] Coletar informações do Paciente\n");
-    printf("[2] Iniciar Triagem\n");
-    printf("[3] Visualizar prognóstico\n");
-    printf("[4] Visualizar Observações\n");
-    printf("[5] Encerrar\n");
+	printf("\n------------------------------------------------------------------------------------------------------------------------\n");
+    printf("\n\t						M E N U\n");
+    printf("\n		[1] Coletar informações do Paciente\n");
+    printf("\n		[2] Iniciar Triagem\n");
+    printf("\n		[3] Visualizar prognóstico\n");
+    printf("\n		[4] Visualizar Observações\n");
+    printf("\n		[5] Encerrar\n");
+    printf("\n");
+    printf("\n------------------------------------------------------------------------------------------------------------------------\n");
     printf("Opção: ");
     scanf("%d", &opcao);
     getchar();//limpa o buffer
@@ -91,8 +94,13 @@ void informacoesPaciente()
 
     char nomeTmp[100];
     int i;
-
-    printf("\nNOME: ");
+	printf("\n------------------------------------------------------------------------------------------------------------------------\n");	
+	printf("\n");
+	printf("					Perfeito vamos cadastrar o paciente!");
+	printf("\n");
+	printf("\n------------------------------------------------------------------------------------------------------------------------\n");
+	
+    printf("\n 		INFORME O NOME: ");
     fgets(nomeTmp, sizeof(nomeTmp), stdin);
     nomeTmp[strcspn(nomeTmp, "\n")] = '\0';
 
@@ -101,30 +109,35 @@ void informacoesPaciente()
     }
 
 
-    printf("IDADE: ");
+    printf("\n 	       INFORME A IDADE: ");
     scanf("%d", &idade);
     getchar();//limpa o buffer
 
-    printf("TELEFONE: ");
+    printf("\n            INFORME O TELEFONE: ");
     fgets(telefone, sizeof(telefone), stdin);
     telefone[strcspn(telefone, "\n")] = '\0';
 
-    printf("\n==Informções Registradas==\n");
+    printf("\n========================================Informções Registradas Com Sucesso=============================================\n");
 }
 
 // ----------------- TRIAGEM -----------------
 void iniciarTriagem()
 {
     system("cls");
-
+    printf("\n------------------------------------------------------------------------------------------------------------------------\n");	
+	printf("\n");
+	
+	printf("			      Triagem iniciada, digite (S) para sim e (N) para não\n");
+	printf("\n");
+	printf("\n------------------------------------------------------------------------------------------------------------------------\n");
     //int pontos = 0;
-    int febre = perguntasTriagem("Febre?");
-    int tosse = perguntasTriagem("Tosse?");
-    int dorG = perguntasTriagem("Dor de garganta?");
-    int ar = perguntasTriagem("Falta de ar?");
-    int contato = perguntasTriagem("Contato com doente?");
-    int dorCab = perguntasTriagem("Dor de cabeça?");
-    int fraq = perguntasTriagem("Fraqueza?");
+    int febre = perguntasTriagem("	Febre: ");
+    int tosse = perguntasTriagem("	Tosse: ");
+    int dorG = perguntasTriagem("	Dor de garganta: ");
+    int ar = perguntasTriagem("	Falta de ar:");
+    int contato = perguntasTriagem("	Contato com doente:");
+    int dorCab = perguntasTriagem("	Dor de cabeça: ");
+    int fraq = perguntasTriagem("	Fraqueza: ");
 
     pontos += febre + tosse + dorG + ar + contato + dorCab + fraq;
 
@@ -139,38 +152,38 @@ void iniciarTriagem()
     // ----- ÁRVORE REFINADA -----
     if (pontos >= 90)
     {
-        strcpy(quadroPaciente, "ALTO RISCO");
-        strcpy(recomendacoes, "ATENDIMENTO IMEDIATO");
-        strcpy(conclusao, "CRITICO");
+        strcpy(quadroPaciente, "	ALTO RISCO !	");
+        strcpy(recomendacoes, "	!ATENDIMENTO IMEDIATO!	");
+        strcpy(conclusao, "	!!CRITICO!!	");
     }
     else if (pontos >= 70)
     {
-        strcpy(quadroPaciente, "RISCO MODERADO-ALTO");
-        strcpy(recomendacoes, "AVALIAÇÃO PRESENCIAL");
-        strcpy(conclusao, "GRAVE");
+        strcpy(quadroPaciente, "	RISCO MODERADO-ALTO	");
+        strcpy(recomendacoes, "	AVALIAÇÃO PRESENCIAL	");
+        strcpy(conclusao, "	GRAVE	");
     }
     else if (pontos >= 45)
     {
-        strcpy(quadroPaciente, "RISCO MODERADO");
-        strcpy(recomendacoes, "ISOLAMENTO E MONITORAMENTO");
-        strcpy(conclusao, "MODERADO");
+        strcpy(quadroPaciente, "	RISCO MODERADO	");
+        strcpy(recomendacoes, "	ISOLAMENTO E MONITORAMENTO	");
+        strcpy(conclusao, "	MODERADO	");
     }
     else if (pontos >= 20)
     {
-        strcpy(quadroPaciente, "QUADRO LEVE");
-        strcpy(recomendacoes, "HIDRATAÇÃO E REPOUSO");
-        strcpy(conclusao, "LEVE");
+        strcpy(quadroPaciente, "	QUADRO LEVE	");
+        strcpy(recomendacoes, "	HIDRATAÇÃO E REPOUSO	");
+        strcpy(conclusao, "	LEVE	");
     }
     else
     {
-        strcpy(quadroPaciente, "SEM INDICATIVOS");
-        strcpy(recomendacoes, "VIDA NORMAL");
-        strcpy(conclusao, "BOM");
+        strcpy(quadroPaciente, "	SEM INDICATIVOS	");
+        strcpy(recomendacoes, "	CONTINUE O BOM TRABALHO	");
+        strcpy(conclusao, "	BOM	");
     }
 
     calculoUrgencia(pontos);
-
-    printf("==Tragem Finalizada==\n\n");
+	printf("\n");
+    printf("===============================================Tragem Finalizada========================================================\n\n");
 }
 
 int perguntasTriagem(char *msg)
@@ -187,12 +200,12 @@ int perguntasTriagem(char *msg)
         if (toupper(resposta) == 'S')
         {
            do {
-                printf("1=Leve / 2=Moderado / 3=Forte): ");
+                printf("\n		(1=Leve / 2=Moderado / 3=Forte): ");
                 scanf("%d", &nivel);
                 getchar();// limpar buffer
 
                 if(nivel < 1 || nivel > 3){
-                    printf(" intensidade inválida, tente novamente\n");
+                    printf("\n ! intensidade inválida, tente novamente ! \n");
                 }
             }
             while (nivel < 1 || nivel > 3);
@@ -204,7 +217,7 @@ int perguntasTriagem(char *msg)
             return 0;
         }
 
-        printf("Entrada inválida!\n");
+        printf("		Entrada inválida!\n");
     }
 
 }
@@ -214,14 +227,20 @@ void exibirPrognostico()
 {
     system("cls");
 
-    printf("\n=== PROGNÓSTICO ===\n");
-    printf("Paciente: %s\n", nome);
-    printf("Idade: %d\n", idade);
-    printf("\n===================\n");
-    printf("Quadro: %s\n", quadroPaciente);
-    printf("Urgência: %s\n", urgencia);
-    printf("Recomendações: %s\n", recomendacoes);
-    printf("Conclusão: %s\n\n", conclusao);
+    printf("\n============================================= PROGNÓSTICO ===================================\n");
+    printf("\n");
+    printf("\n         Informações coletadas: ");
+    printf("\n");
+    printf("\n						Paciente: %s\n", nome);
+    printf("\n						Idade: %d\n", idade);
+	printf("\n");
+    printf("\n= 		          ==================================================\n");
+    printf("\n");
+    printf("						Quadro: %s\n", quadroPaciente);
+    printf("						Urgência: %s\n", urgencia);
+    printf("						Recomendações: %s\n", recomendacoes);
+    printf("\n----------------------------------------------------------------------------------------------------------\n");
+    printf("\n						Conclusão: %s\n\n", conclusao);
 }
 
 // ----------------- OBSERVAÇÕES -----------------
@@ -271,13 +290,15 @@ void observacoes()
     }
 
     // Informação resumida ao usuário
-    printf("\n==== OBSERVAÇÕES ====\n");
-    printf("Paciente: %s\n", nome);
-    printf("Idade: %d\n", idade);
-    printf("Contato: %s\n",telefone);
-    printf("Pontos de Urgência: %d\n\n",pontos);
-    printf("%s\n", orientacoes);
-    printf("================================\n\n");
+    printf("\n======================================================= OBSERVAÇÕES ==================================================\n");
+    printf("\n");
+    printf("\n		Paciente: %s\n", nome);
+    printf("\n		Idade: %d\n", idade);
+    printf("\n		Contato: %s\n",telefone);
+    printf("\n		Pontos de Urgência: %d\n\n",pontos);
+    printf("\n		%s\n", orientacoes);
+    printf("\n");
+    printf("========================================================================================================================\n\n");
 }
 
 // ----- URGÊNCIA POR PONTUAÇÃO -----
